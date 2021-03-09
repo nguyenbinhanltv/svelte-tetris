@@ -1,30 +1,19 @@
 <script lang="ts">
-	export let name: string;
+  import Tbutton from "./components/button/button.svelte";
+  import { ArrowButton } from "./interfaces/arrow-button.svelte";
+  export let name: string;
 </script>
 
 <main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+  <h1>Hello {name}!</h1>
+  <Tbutton
+    className="green btn-md"
+    active$={true}
+    arrowButton={ArrowButton.UP}
+    top={0}
+    left={374}
+    isAbsolute={true}
+  >
+    Rotation
+  </Tbutton>
 </main>
-
-<style lang="scss">
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
-
-	h1 {
-		color: blue;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
-</style>

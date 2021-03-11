@@ -9,6 +9,7 @@
 
   export let active$: any;
   export let arrowButton: ArrowButton;
+  export let content: string;
 
   function arrowTransforms() {
     return ArrowButtonTransform[arrowButton];
@@ -18,10 +19,12 @@
 <div class="button {className}" style="top: {top}px; left: {left}px;">
   <i class:active={active$} />
   {#if arrowButton}
-    <em style="tranform: {arrowTransforms}" />
+    <em style="transform: {arrowTransforms()};" />
   {/if}
 
-  <span class:absolute={isAbsolute} />
+  <span class:absolute={isAbsolute}>
+    {content}
+  </span>
 </div>
 
 <style lang="scss">

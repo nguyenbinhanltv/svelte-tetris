@@ -13,3 +13,7 @@
     <span class="bg num num-{sequence}" />
   {/each}
 </div>
+
+<style lang="scss">
+  @import "../../styles/tetris.scss";
+</style>

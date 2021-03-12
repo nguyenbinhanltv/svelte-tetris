@@ -18,7 +18,7 @@
   <span class="r ml-10" />
   <span class="r ml-10" />
 </div>
-<h1>{{ title }}</h1>
+<h1>{title}</h1>
 <div class="view">
   <Ttile tile={filled} />
   <div class="clear" />

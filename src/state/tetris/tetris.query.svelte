@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
   import { Query } from "@datorama/akita";
-  import { TetrisStore, TetrisState } from "./tetris.store";
+  import type { TetrisStore, TetrisState } from "./tetris.store.svelte";
   import { GameState } from "../../interfaces/game-state.svelte";
   import { map, delay, switchMap } from "rxjs/operators";
   import { combineLatest, of } from "rxjs";

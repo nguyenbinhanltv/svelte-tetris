@@ -41,4 +41,11 @@
     saved: null,
     max: LocalStorageService.maxPoint,
   });
+
+  @StoreConfig({ name: "SvelteTetris" })
+  export class TetrisStore extends Store<TetrisState> {
+    constructor(_pieceFactory: PieceFactory) {
+      super(createInitialState(_pieceFactory));
+    }
+  }
 </script>

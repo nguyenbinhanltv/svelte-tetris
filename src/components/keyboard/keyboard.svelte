@@ -1,5 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
+  import { of } from "rxjs";
   import { ArrowButton } from "../../interfaces/arrow-button.svelte";
   import TButton from "../button/button.svelte";
 
@@ -24,7 +25,7 @@
   <TButton
     className="blue btn-md"
     content="Rotation"
-    active$={true}
+    active$={of(true)}
     arrowButton={ArrowButton.UP}
     top={0}
     left={374}
@@ -37,7 +38,7 @@
   <TButton
     className="blue btn-md"
     content="Down"
-    active$={true}
+    active$={of(false)}
     arrowButton={ArrowButton.DOWN}
     top={180}
     left={374}
@@ -49,7 +50,7 @@
   <TButton
     className="blue btn-md"
     content="Left"
-    active$={true}
+    active$={of(false)}
     arrowButton={ArrowButton.LEFT}
     top={90}
     left={284}
@@ -61,7 +62,7 @@
   <TButton
     className="blue btn-md"
     content="Right"
-    active$={true}
+    active$={of(false)}
     arrowButton={ArrowButton.RIGHT}
     top={90}
     left={464}
@@ -73,7 +74,7 @@
   <TButton
     className="blue btn-lg"
     content="Drop (SPACE)"
-    active$={true}
+    active$={of(false)}
     top={100}
     left={52}
     on:mousedown={mouseDown("Space")}
@@ -84,7 +85,7 @@
   <TButton
     className="red btn-sm"
     content="Reset (R)"
-    active$={true}
+    active$={of(false)}
     top={0}
     left={196}
     on:mousedown={mouseDown("Reset")}
@@ -95,7 +96,7 @@
   <TButton
     className="green btn-sm"
     content="Sound (S)"
-    active$={true}
+    active$={of(false)}
     top={0}
     left={106}
     on:mousedown={mouseDown("Sound")}
@@ -106,7 +107,7 @@
   <TButton
     className="green btn-sm"
     content="Pause (P)"
-    active$={true}
+    active$={of(false)}
     top={0}
     left={16}
     on:mousedown={mouseDown("Pause")}

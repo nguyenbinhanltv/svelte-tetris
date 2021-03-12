@@ -3,7 +3,8 @@
   import { map } from "rxjs/operators";
   import { onMount } from "svelte";
   import { onDestroy, subscribe } from "svelte/internal";
-  import { Tile, TileValue } from "../../interfaces/tile/tile.svelte";
+  import type { TileValue } from "../../interfaces/tile/tile.svelte";
+  import { Tile } from "../../interfaces/tile/tile.svelte";
   import * as _tetrisQuery from "../../state/tetris/tetris.query.svelte";
 
   let next$: Subscription;

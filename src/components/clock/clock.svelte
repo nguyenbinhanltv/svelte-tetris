@@ -5,12 +5,12 @@
 
   const REFRESH_CLOCK_INTERVAL = 1000;
   let clock$: Subscription;
-  let clock: string[];
+  let clock: string[] = [];
 
   function renderClock(): string[] {
     const now = new Date();
-    const hours = this.formatTwoDigits(now.getHours());
-    const minutes = this.formatTwoDigits(now.getMinutes());
+    const hours = formatTwoDigits(now.getHours());
+    const minutes = formatTwoDigits(now.getMinutes());
     const isOddSecond = now.getSeconds() % 2 !== 0;
     const blinking = `colon-${isOddSecond ? "solid" : "faded"}`;
     return [...hours, blinking, ...minutes];

@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script lang="ts" context="module">
   export enum ArrowButton { // eslint-disable-line no-shadow
     UP = "UP",
     DOWN = "DOWN",

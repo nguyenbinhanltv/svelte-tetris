@@ -1,10 +1,11 @@
 import App from './App.svelte';
+import { akitaDevtools, persistState } from '@datorama/akita';
+
+akitaDevtools();
+persistState();
 
 const app = new App({
 	target: document.body,
-	props: {
-		name: 'world'
-	}
 });
 
 export default app;

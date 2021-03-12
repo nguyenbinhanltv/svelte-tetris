@@ -1,12 +1,12 @@
 <script lang="ts" context="module">
-  import { Store, StoreConfig } from "@datorama/akita";
-  import type { PieceFactory } from "../../factory/piece-factory.svelte";
+  import { createEntityStore } from "@datorama/akita";
+  import { PieceFactory } from "../../factory/piece-factory.svelte";
   import { GameState } from "../../interfaces/game-state.svelte";
   import type { Piece } from "../../interfaces/piece/piece.svelte";
   import type { Tile } from "../../interfaces/tile/tile.svelte";
   import { MatrixUtil } from "../../interfaces/matrix.svelte";
   import type { Speed } from "../../interfaces/speed.svelte";
-  import { LocalStorageService } from "../../services/local-storage.service.svelte";
+  import * as LocalStorageService from "../../services/local-storage.service.svelte";
 
   export interface TetrisState {
     matrix: Tile[];
@@ -39,13 +39,13 @@
     speed: 1,
     gameState: GameState.Loading,
     saved: null,
-    max: LocalStorageService.maxPoint,
+    max: LocalStorageService.maxPoint(),
   });
 
-  @StoreConfig({ name: "SvelteTetris" })
-  export class TetrisStore extends Store<TetrisState> {
-    constructor(_pieceFactory: PieceFactory) {
-      super(createInitialState(_pieceFactory));
+  export const TetrisStore = createEntityStore(
+    createInitialState(new PieceFactory()),
+    {
+      name: "SvelteTetrisKeyboard",
     }
-  }
+  );
 </script>

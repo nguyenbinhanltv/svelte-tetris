@@ -1,72 +1,76 @@
 <script lang="ts" context="module">
-  import { Query } from "@datorama/akita";
-  import type { TetrisStore, TetrisState } from "./tetris.store.svelte";
+  import { createEntityQuery, QueryEntity } from "@datorama/akita";
+  import { TetrisStore } from "./tetris.store.svelte";
+  import type { TetrisState } from "./tetris.store.svelte";
   import { GameState } from "../../interfaces/game-state.svelte";
   import { map, delay, switchMap } from "rxjs/operators";
   import { combineLatest, of } from "rxjs";
 
-  export class TetrisQuery extends Query<TetrisState> {
-    next$ = this.select("next");
-    matrix$ = this.select("matrix");
-    sound$ = this.select("sound");
-    gameState$ = this.select("gameState");
-    hasCurrent$ = this.select("current").pipe(map((x) => !!x));
-    points$ = this.select("points");
-    clearedLines$ = this.select("clearedLines");
-    initLine$ = this.select("initLine");
-    speed$ = this.select("speed");
-    initSpeed$ = this.select("initSpeed");
-    max$ = this.select("max");
+  export const TetrisQuery: QueryEntity<TetrisState> = createEntityQuery(
+    TetrisStore
+  );
 
-    isShowLogo$ = combineLatest([this.gameState$, this.select("current")]).pipe(
-      switchMap(([state, current]) => {
-        const isLoadingOrOver =
-          state === GameState.Loading || state === GameState.Over;
-        const isRenderingLogo$ = of(isLoadingOrOver && !current);
-        return isLoadingOrOver
-          ? isRenderingLogo$.pipe(delay(1800))
-          : isRenderingLogo$;
-      })
-    );
+  export const next$ = TetrisQuery.select("next");
+  export const matrix$ = TetrisQuery.select("matrix");
+  export const sound$ = TetrisQuery.select("sound");
+  export const gameState$ = TetrisQuery.select("gameState");
+  export const hasCurrent$ = TetrisQuery.select("current").pipe(
+    map((x) => !!x)
+  );
+  export const points$ = TetrisQuery.select("points");
+  export const clearedLines$ = TetrisQuery.select("clearedLines");
+  export const initLine$ = TetrisQuery.select("initLine");
+  export const speed$ = TetrisQuery.select("speed");
+  export const initSpeed$ = TetrisQuery.select("initSpeed");
+  export const max$ = TetrisQuery.select("max");
 
-    constructor(protected store: TetrisStore) {
-      super(store);
-    }
+  export const isShowLogo$ = combineLatest([
+    gameState$,
+    TetrisQuery.select("current"),
+  ]).pipe(
+    switchMap(([state, current]) => {
+      const isLoadingOrOver =
+        state === GameState.Loading || state === GameState.Over;
+      const isRenderingLogo$ = of(isLoadingOrOver && !current);
+      return isLoadingOrOver
+        ? isRenderingLogo$.pipe(delay(1800))
+        : isRenderingLogo$;
+    })
+  );
 
-    get raw(): TetrisState {
-      return this.getValue();
-    }
+  export function raw(): TetrisState {
+    return TetrisQuery.getValue();
+  }
 
-    get locked(): boolean {
-      return this.raw.locked;
-    }
+  export function locked(): boolean {
+    return raw().locked;
+  }
 
-    get current() {
-      return this.raw.current;
-    }
+  export function current() {
+    return raw().current;
+  }
 
-    get next() {
-      return this.raw.next;
-    }
+  export function next() {
+    return raw().next;
+  }
 
-    get matrix() {
-      return this.raw.matrix;
-    }
+  export function matrix() {
+    return raw().matrix;
+  }
 
-    get canStartGame() {
-      return this.raw.gameState !== GameState.Started;
-    }
+  export function canStartGame() {
+    return raw().gameState !== GameState.Started;
+  }
 
-    get isPlaying() {
-      return this.raw.gameState === GameState.Started;
-    }
+  export function isPlaying() {
+    return raw().gameState === GameState.Started;
+  }
 
-    get isPause() {
-      return this.raw.gameState === GameState.Paused;
-    }
+  export function isPause() {
+    return raw().gameState === GameState.Paused;
+  }
 
-    get isEnableSound(): boolean {
-      return !!this.raw.sound;
-    }
+  export function isEnableSound(): boolean {
+    return !!raw().sound;
   }
 </script>

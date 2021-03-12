@@ -1,393 +1,389 @@
 <script lang="ts" context="module">
-import type { PieceFactory } from '../../factory/piece-factory.svelte';
-import type { CallBack } from '../../interfaces/callback.svelte';
-import { GameState } from '../../interfaces/game-state.svelte';
-import type { Piece } from '../../interfaces/piece/piece.svelte';
-import { EmptyTile } from '../../interfaces/tile/empty-tile.svelte';
-import { FilledTile } from '../../interfaces/tile/filled-tile.svelte';
-import type { Tile } from '../../interfaces/tile/tile.svelte';
-import { MatrixUtil } from '../../interfaces/matrix.svelte';
-import { Subscription, timer } from 'rxjs';
-import type { TetrisQuery } from './tetris.query.svelte';
-import { createInitialState, TetrisStore } from './tetris.store.svelte';
-import type { Speed } from '../../interfaces/speed.svelte';
-import { SoundManagerService } from '../../services/sound-manager.service.svelte';
-import { LocalStorageService } from '../../services/local-storage.service.svelte';
+  import { PieceFactory } from "../../factory/piece-factory.svelte";
+  import type { CallBack } from "../../interfaces/callback.svelte";
+  import { GameState } from "../../interfaces/game-state.svelte";
+  import type { Piece } from "../../interfaces/piece/piece.svelte";
+  import { EmptyTile } from "../../interfaces/tile/empty-tile.svelte";
+  import { FilledTile } from "../../interfaces/tile/filled-tile.svelte";
+  import type { Tile } from "../../interfaces/tile/tile.svelte";
+  import { MatrixUtil } from "../../interfaces/matrix.svelte";
+  import { Subscription, timer } from "rxjs";
+  import * as _query from "./tetris.query.svelte";
+  import * as _store from "./tetris.store.svelte";
+  import type { Speed } from "../../interfaces/speed.svelte";
+  import * as _soundManager from "../../services/sound-manager.service.svelte";
+  import * as LocalStorageService from "../../services/local-storage.service.svelte";
+  import { createInitialState } from "./tetris.store.svelte";
 
-@Injectable({ providedIn: 'root' })
-export class TetrisService {
-  _gameInterval: Subscription;
+  let _gameInterval: Subscription;
+  const _pieceFactory = new PieceFactory();
 
-  constructor(
-    private _store: TetrisStore,
-    private _query: TetrisQuery,
-    private _soundManager: SoundManagerService,
-    private _pieceFactory: PieceFactory
-  ) {}
-
-  private get _locked(): boolean {
-    return this._query.locked;
+  function _locked() {
+    return _query.locked();
   }
 
-  private get _current() {
-    return this._query.current;
+  function _current() {
+    return _query.current();
   }
 
-  private get _next() {
-    return this._query.next;
+  function _next() {
+    return _query.next();
   }
 
-  private get _matrix() {
-    return this._query.matrix;
+  function _matrix() {
+    return _query.matrix();
   }
 
-  start() {
-    if (!this._current) {
-      this._setCurrentPiece(this._next);
-      this._setNext();
+  export function start() {
+    if (!_current()) {
+      _setCurrentPiece(_next());
+      _setNext();
     }
-    const { initLine, initSpeed } = this._query.raw;
-    this._store.update({
+    const { initLine, initSpeed } = _query.raw();
+    _store.TetrisStore.update({
       points: 0,
       gameState: GameState.Started,
       matrix: MatrixUtil.getStartBoard(initLine),
-      speed: initSpeed
+      speed: initSpeed,
     });
-    this._unsubscribe();
-    this.auto(MatrixUtil.getSpeedDelay(initSpeed));
-    this._setLocked(false);
+    _unsubscribe();
+    auto(MatrixUtil.getSpeedDelay(initSpeed));
+    _setLocked(false);
   }
 
-  auto(delay: number) {
-    this._gameInterval = timer(0, delay).subscribe(() => {
-      this._update();
+  function auto(delay: number) {
+    _gameInterval = timer(0, delay).subscribe(() => {
+      _update();
     });
   }
 
-  resume() {
-    if (!this._query.isPause) {
+  function resume() {
+    if (!_query.isPause()) {
       return;
     }
-    const { speed } = this._query.raw;
-    this._store.update({
+    const { speed } = _query.raw();
+    _store.TetrisStore.update({
       locked: false,
-      gameState: GameState.Started
+      gameState: GameState.Started,
     });
-    this.auto(MatrixUtil.getSpeedDelay(speed));
+    auto(MatrixUtil.getSpeedDelay(speed));
   }
 
-  pause() {
-    if (!this._query.isPlaying) {
+  function pause() {
+    if (!_query.isPlaying()) {
       return;
     }
-    this._store.update({
+    _store.TetrisStore.update({
       locked: true,
-      gameState: GameState.Paused
+      gameState: GameState.Paused,
     });
-    this._unsubscribe();
+    _unsubscribe();
   }
 
-  reset() {
-    const { sound } = this._query.raw;
-    this._store.update({
-      ...createInitialState(this._pieceFactory),
-      sound
+  function reset() {
+    const { sound } = _query.raw();
+    _store.TetrisStore.update({
+      ...createInitialState(_pieceFactory),
+      sound,
     });
   }
 
-  moveLeft() {
-    if (this._locked) {
+  function moveLeft() {
+    if (_locked()) {
       return;
     }
-    this._clearPiece();
-    this._setCurrentPiece(this._current.store());
-    this._setCurrentPiece(this._current.moveLeft());
-    if (this._isCollidesLeft) {
-      this._setCurrentPiece(this._current.revert());
+    _clearPiece();
+    _setCurrentPiece(_current().store());
+    _setCurrentPiece(_current().moveLeft());
+    if (_isCollidesLeft()) {
+      _setCurrentPiece(_current().revert());
     }
-    this._drawPiece();
+    _drawPiece();
   }
 
-  moveRight() {
-    if (this._locked) {
+  function moveRight() {
+    if (_locked()) {
       return;
     }
-    this._clearPiece();
-    this._setCurrentPiece(this._current.store());
-    this._setCurrentPiece(this._current.moveRight());
-    if (this._isCollidesRight) {
-      this._setCurrentPiece(this._current.revert());
+    _clearPiece();
+    _setCurrentPiece(_current().store());
+    _setCurrentPiece(_current().moveRight());
+    if (_isCollidesRight()) {
+      _setCurrentPiece(_current().revert());
     }
-    this._drawPiece();
+    _drawPiece();
   }
 
-  rotate() {
-    if (this._locked) {
+  function rotate() {
+    if (_locked()) {
       return;
     }
 
-    this._clearPiece();
-    this._setCurrentPiece(this._current.store());
-    this._setCurrentPiece(this._current.rotate());
-    while (this._isCollidesRight) {
-      this._setCurrentPiece(this._current.moveLeft());
-      if (this._isCollidesLeft) {
-        this._setCurrentPiece(this._current.revert());
+    _clearPiece();
+    _setCurrentPiece(_current().store());
+    _setCurrentPiece(_current().rotate());
+    while (_isCollidesRight()) {
+      _setCurrentPiece(_current().moveLeft());
+      if (_isCollidesLeft()) {
+        _setCurrentPiece(_current().revert());
         break;
       }
     }
-    this._drawPiece();
+    _drawPiece();
   }
 
-  moveDown() {
-    this._update();
+  function moveDown() {
+    _update();
   }
 
-  drop() {
-    if (this._locked) {
+  function drop() {
+    if (_locked()) {
       return;
     }
-    while (!this._isCollidesBottom) {
-      this._clearPiece();
-      this._setCurrentPiece(this._current.store());
-      this._setCurrentPiece(this._current.moveDown());
+    while (!_isCollidesBottom()) {
+      _clearPiece();
+      _setCurrentPiece(_current().store());
+      _setCurrentPiece(_current().moveDown());
     }
-    this._setCurrentPiece(this._current.revert());
-    this._drawPiece();
+    _setCurrentPiece(_current().revert());
+    _drawPiece();
   }
 
-  setSound() {
-    const sound = this._query.raw.sound;
-    this._store.update({
-      sound: !sound
+  function setSound() {
+    const sound = _query.raw().sound;
+    _store.TetrisStore.update({
+      sound: !sound,
     });
   }
 
-  decreaseLevel() {
-    const { initSpeed } = this._query.raw;
+  function decreaseLevel() {
+    const { initSpeed } = _query.raw();
     const newSpeed = (initSpeed - 1 < 1 ? 6 : initSpeed - 1) as Speed;
-    this._store.update({
-      initSpeed: newSpeed
+    _store.TetrisStore.update({
+      initSpeed: newSpeed,
     });
   }
 
-  increaseLevel() {
-    const { initSpeed } = this._query.raw;
+  function increaseLevel() {
+    const { initSpeed } = _query.raw();
     const newSpeed = (initSpeed + 1 > 6 ? 1 : initSpeed + 1) as Speed;
-    this._store.update({
-      initSpeed: newSpeed
+    _store.TetrisStore.update({
+      initSpeed: newSpeed,
     });
   }
 
-  increaseStartLine() {
-    const { initLine } = this._query.raw;
+  function increaseStartLine() {
+    const { initLine } = _query.raw();
     const startLine = initLine + 1 > 10 ? 1 : initLine + 1;
-    this._store.update({
-      initLine: startLine
+    _store.TetrisStore.update({
+      initLine: startLine,
     });
   }
 
-  decreaseStartLine() {
-    const { initLine } = this._query.raw;
+  function decreaseStartLine() {
+    const { initLine } = _query.raw();
     const startLine = initLine - 1 < 1 ? 10 : initLine - 1;
-    this._store.update({
-      initLine: startLine
+    _store.TetrisStore.update({
+      initLine: startLine,
     });
   }
 
-  private _update() {
-    if (this._locked) {
+  function _update() {
+    if (_locked()) {
       return;
     }
-    this._setLocked(true);
-    this._setCurrentPiece(this._current.revert());
-    this._clearPiece();
-    this._setCurrentPiece(this._current.store());
-    this._setCurrentPiece(this._current.moveDown());
+    _setLocked(true);
+    _setCurrentPiece(_current().revert());
+    _clearPiece();
+    _setCurrentPiece(_current().store());
+    _setCurrentPiece(_current().moveDown());
 
-    if (this._isCollidesBottom) {
-      this._setCurrentPiece(this._current.revert());
-      this._markAsSolid();
-      this._drawPiece();
-      this._clearFullLines();
-      this._setCurrentPiece(this._next);
-      this._setNext();
-      if (this._isGameOver) {
-        this._onGameOver();
+    if (_isCollidesBottom()) {
+      _setCurrentPiece(_current().revert());
+      _markAsSolid();
+      _drawPiece();
+      _clearFullLines();
+      _setCurrentPiece(_next());
+      _setNext();
+      if (_isGameOver()) {
+        _onGameOver();
         return;
       }
     }
 
-    this._drawPiece();
-    this._setLocked(false);
+    _drawPiece();
+    _setLocked(false);
   }
 
-  private _clearFullLines() {
+  function _clearFullLines() {
     let numberOfClearedLines = 0;
-    const newMatrix = [...this._matrix];
+    const newMatrix = [..._matrix()];
     for (let row = MatrixUtil.Height - 1; row >= 0; row--) {
       const pos = row * MatrixUtil.Width;
       const fullRowTiles = newMatrix.slice(pos, pos + MatrixUtil.Width);
       const isFullRow = fullRowTiles.every((x) => x.isSolid);
       if (isFullRow) {
         numberOfClearedLines++;
-        const topPortion = this._matrix.slice(0, row * MatrixUtil.Width);
-        newMatrix.splice(0, ++row * MatrixUtil.Width, ...MatrixUtil.EmptyRow.concat(topPortion));
-        this._setMatrix(newMatrix);
+        const topPortion = _matrix().slice(0, row * MatrixUtil.Width);
+        newMatrix.splice(
+          0,
+          ++row * MatrixUtil.Width,
+          ...MatrixUtil.EmptyRow.concat(topPortion)
+        );
+        _setMatrix(newMatrix);
       }
     }
-    this._setPointsAndSpeed(numberOfClearedLines);
+    _setPointsAndSpeed(numberOfClearedLines);
   }
 
-  private get _isGameOver() {
-    this._setCurrentPiece(this._current.store());
-    this._setCurrentPiece(this._current.moveDown());
-    if (this._isCollidesBottom) {
+  function _isGameOver() {
+    _setCurrentPiece(_current().store());
+    _setCurrentPiece(_current().moveDown());
+    if (_isCollidesBottom()) {
       return true;
     }
-    this._setCurrentPiece(this._current.revert());
+    _setCurrentPiece(_current().revert());
     return false;
   }
 
-  private _onGameOver() {
-    this.pause();
-    this._soundManager.gameOver();
-    const { points, max, sound } = this._query.raw;
+  function _onGameOver() {
+    pause();
+    _soundManager.gameOver();
+    const { points, max, sound } = _query.raw();
     const maxPoint = Math.max(points, max);
     LocalStorageService.setMaxPoint(maxPoint);
-    this._store.update({
-      ...createInitialState(this._pieceFactory),
+    _store.TetrisStore.update({
+      ...createInitialState(_pieceFactory),
       max: maxPoint,
       gameState: GameState.Over,
-      sound
+      sound,
     });
   }
 
-  private get _isCollidesBottom(): boolean {
-    if (this._current.bottomRow >= MatrixUtil.Height) {
+  function _isCollidesBottom(): boolean {
+    if (_current().bottomRow >= MatrixUtil.Height) {
       return true;
     }
-    return this._collides();
+    return _collides();
   }
 
-  private get _isCollidesLeft(): boolean {
-    if (this._current.leftCol < 0) {
+  function _isCollidesLeft(): boolean {
+    if (_current().leftCol < 0) {
       return true;
     }
-    return this._collides();
+    return _collides();
   }
 
-  private get _isCollidesRight(): boolean {
-    if (this._current.rightCol >= MatrixUtil.Width) {
+  function _isCollidesRight(): boolean {
+    if (_current().rightCol >= MatrixUtil.Width) {
       return true;
     }
-    return this._collides();
+    return _collides();
   }
 
-  private _collides(): boolean {
-    return this._current.positionOnGrid.some((pos) => {
-      if (this._matrix[pos].isSolid) {
+  function _collides(): boolean {
+    return _current().positionOnGrid.some((pos) => {
+      if (_matrix[pos].isSolid) {
         return true;
       }
       return false;
     });
   }
 
-  private _drawPiece() {
-    this._setCurrentPiece(this._current.clearStore());
-    this._loopThroughPiecePosition((position) => {
-      const isSolid = this._matrix[position].isSolid;
-      this._updateMatrix(position, new FilledTile(isSolid));
+  function _drawPiece() {
+    _setCurrentPiece(_current().clearStore());
+    _loopThroughPiecePosition((position) => {
+      const isSolid = _matrix[position].isSolid;
+      _updateMatrix(position, new FilledTile(isSolid));
     });
   }
 
-  private _markAsSolid() {
-    this._loopThroughPiecePosition((position) => {
-      this._updateMatrix(position, new FilledTile(true));
+  function _markAsSolid() {
+    _loopThroughPiecePosition((position) => {
+      _updateMatrix(position, new FilledTile(true));
     });
   }
 
-  private _clearPiece() {
-    this._loopThroughPiecePosition((position) => {
-      this._updateMatrix(position, new EmptyTile());
+  function _clearPiece() {
+    _loopThroughPiecePosition((position) => {
+      _updateMatrix(position, new EmptyTile());
     });
   }
 
-  private _loopThroughPiecePosition(callback: CallBack<number>) {
-    this._current.positionOnGrid.forEach((position) => {
+  function _loopThroughPiecePosition(callback: CallBack<number>) {
+    _current().positionOnGrid.forEach((position) => {
       callback(position);
     });
   }
 
-  private _setPointsAndSpeed(numberOfClearedLines: number) {
+  function _setPointsAndSpeed(numberOfClearedLines: number) {
     if (!numberOfClearedLines) {
       return;
     }
-    this._soundManager.clear();
-    const { points, clearedLines, speed, initSpeed } = this._query.raw;
+    _soundManager.clear();
+    const { points, clearedLines, speed, initSpeed } = _query.raw();
     const newLines = clearedLines + numberOfClearedLines;
-    const newPoints = this._getPoints(numberOfClearedLines, points);
-    const newSpeed = this._getSpeed(newLines, initSpeed);
+    const newPoints = _getPoints(numberOfClearedLines, points);
+    const newSpeed = _getSpeed(newLines, initSpeed);
 
-    this._store.update({
+    _store.TetrisStore.update({
       points: newPoints,
       clearedLines: newLines,
-      speed: newSpeed
+      speed: newSpeed,
     });
 
     if (newSpeed !== speed) {
-      this._unsubscribe();
-      this.auto(MatrixUtil.getSpeedDelay(newSpeed));
+      _unsubscribe();
+      auto(MatrixUtil.getSpeedDelay(newSpeed));
     }
   }
 
-  private _getSpeed(totalLines: number, initSpeed: number): Speed {
+  function _getSpeed(totalLines: number, initSpeed: number): Speed {
     const addedSpeed = Math.floor(totalLines / MatrixUtil.Height);
     let newSpeed = (initSpeed + addedSpeed) as Speed;
     newSpeed = newSpeed > 6 ? 6 : newSpeed;
     return newSpeed;
   }
 
-  private _getPoints(numberOfClearedLines: number, points: number): number {
+  function _getPoints(numberOfClearedLines: number, points: number): number {
     const addedPoints = MatrixUtil.Points[numberOfClearedLines - 1];
     const newPoints = points + addedPoints;
     return newPoints > MatrixUtil.MaxPoint ? MatrixUtil.MaxPoint : newPoints;
   }
 
-  private _updateMatrix(pos: number, tile: Tile) {
-    const newMatrix = [...this._matrix];
+  function _updateMatrix(pos: number, tile: Tile) {
+    const newMatrix = [..._matrix()];
     newMatrix[pos] = tile;
-    this._setMatrix(newMatrix);
+    _setMatrix(newMatrix);
   }
 
-  private _setNext() {
-    this._store.update({
-      next: this._pieceFactory.getRandomPiece()
+  function _setNext() {
+    _store.TetrisStore.update({
+      next: _pieceFactory.getRandomPiece(),
     });
   }
 
-  private _setCurrentPiece(piece: Piece) {
-    this._store.update({
-      current: piece
+  function _setCurrentPiece(piece: Piece) {
+    _store.TetrisStore.update({
+      current: piece,
     });
   }
 
-  private _setMatrix(matrix: Tile[]) {
-    this._store.update({
-      matrix
+  function _setMatrix(matrix: Tile[]) {
+    _store.TetrisStore.update({
+      matrix,
     });
   }
 
-  private _setLocked(locked: boolean) {
-    this._store.update({
-      locked
+  function _setLocked(locked: boolean) {
+    _store.TetrisStore.update({
+      locked,
     });
   }
 
-  private _unsubscribe() {
-    if (this._gameInterval) {
-      this._gameInterval.unsubscribe();
+  function _unsubscribe() {
+    if (_gameInterval) {
+      _gameInterval.unsubscribe();
     }
   }
-}
 </script>

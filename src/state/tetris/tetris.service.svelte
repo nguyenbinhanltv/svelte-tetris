@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
 import type { PieceFactory } from '../../factory/piece-factory.svelte';
-import { CallBack } from '../../interfaces/callback.svelte';
+import type { CallBack } from '../../interfaces/callback.svelte';
 import { GameState } from '../../interfaces/game-state.svelte';
 import type { Piece } from '../../interfaces/piece/piece.svelte';
 import { EmptyTile } from '../../interfaces/tile/empty-tile.svelte';

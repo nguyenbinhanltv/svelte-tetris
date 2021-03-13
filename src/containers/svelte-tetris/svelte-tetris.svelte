@@ -11,11 +11,21 @@
   import Tkeyboard from "../../components/keyboard/keyboard.svelte";
 
   import Tmatrix from "../../components/matrix/matrix.svelte";
-  import { isShowLogo$ } from "../../state/tetris/tetris.query.svelte";
-  import { onMount } from "svelte";
+  import { onDestroy, onMount } from "svelte";
+  import * as _soundService from "../../services/sound-manager.service.svelte";
+  import * as _keyboardService from "../../state/keyboard/keyboard.service.svelte";
+  import * as _keyboardQuery from "../../state/keyboard/keyboard.query.svelte";
+  import * as _tetrisService from "../../state/tetris/tetris.service.svelte";
+  import * as _tetrisQuery from "../../state/tetris/tetris.query.svelte";
+  import type { Subscription } from "rxjs";
 
   let filling: number;
   let host: HTMLElement;
+
+  let drop$: Subscription;
+  let isShowLogo$: Subscription;
+  let drop: boolean;
+  let isShowLogo: boolean;
 
   function resize() {
     const width = document.documentElement.clientWidth;
@@ -46,28 +56,236 @@
     host.style.marginTop = `${marginTop}px`;
   }
 
+  function keyDownLeft() {
+    _soundService.move();
+    _keyboardService.setKeỵ({
+      left: true,
+    });
+    if (hasCurrent()) {
+      _tetrisService.moveLeft();
+    } else {
+      _tetrisService.decreaseLevel();
+    }
+  }
+
+  function keyUpLeft() {
+    _keyboardService.setKeỵ({
+      left: false,
+    });
+  }
+
+  function keyDownRight() {
+    _soundService.move();
+    _keyboardService.setKeỵ({
+      right: true,
+    });
+    if (hasCurrent()) {
+      _tetrisService.moveRight();
+    } else {
+      _tetrisService.increaseLevel();
+    }
+  }
+
+  function keyUpRight() {
+    _keyboardService.setKeỵ({
+      right: false,
+    });
+  }
+
+  function keyDownUp() {
+    _soundService.rotate();
+    _keyboardService.setKeỵ({
+      up: true,
+    });
+    if (hasCurrent()) {
+      _tetrisService.rotate();
+    } else {
+      _tetrisService.increaseStartLine();
+    }
+  }
+
+  function keyUpUp() {
+    _keyboardService.setKeỵ({
+      up: false,
+    });
+  }
+
+  function keyDownDown() {
+    _soundService.move();
+    _keyboardService.setKeỵ({
+      down: true,
+    });
+    if (hasCurrent()) {
+      _tetrisService.moveDown();
+    } else {
+      _tetrisService.decreaseStartLine();
+    }
+  }
+
+  function keyUpDown() {
+    _keyboardService.setKeỵ({
+      down: false,
+    });
+  }
+
+  function keyDownSpace() {
+    _keyboardService.setKeỵ({
+      drop: true,
+    });
+    if (hasCurrent()) {
+      _soundService.fall();
+      _tetrisService.drop();
+      return;
+    }
+    _soundService.start();
+    _tetrisService.start();
+  }
+
+  function keyUpSpace() {
+    _keyboardService.setKeỵ({
+      drop: false,
+    });
+  }
+
+  function keyDownSound() {
+    _soundService.move();
+    _tetrisService.setSound();
+    _keyboardService.setKeỵ({
+      sound: true,
+    });
+  }
+
+  function keyUpSound() {
+    _keyboardService.setKeỵ({
+      sound: false,
+    });
+  }
+
+  function keyDownPause() {
+    _soundService.move();
+    _keyboardService.setKeỵ({
+      pause: true,
+    });
+    if (_tetrisQuery.canStartGame()) {
+      _tetrisService.resume();
+    } else {
+      _tetrisService.pause();
+    }
+  }
+
+  function keyUpPause() {
+    _keyboardService.setKeỵ({
+      pause: false,
+    });
+  }
+
+  function keyDownReset() {
+    _soundService.move();
+    _keyboardService.setKeỵ({
+      reset: true,
+    });
+    _tetrisService.pause();
+    setTimeout(() => {
+      if (
+        confirm("You are having a good game. Are you sure you want to reset?")
+      ) {
+        _tetrisService.reset();
+      } else {
+        _tetrisService.resume();
+      }
+      keyUpReset();
+    });
+  }
+
+  function keyUpReset() {
+    _keyboardService.setKeỵ({
+      reset: false,
+    });
+  }
+
+  function hasCurrent() {
+    return !!_tetrisQuery.current();
+  }
+
   function keyboardMouseDown(event) {
-    const callback = window[`keyDown${event.detail.key}`];
-    if (typeof callback == "function") callback();
+    switch (`keyDown${event.detail.key}`) {
+      case "keyDownUp":
+        keyDownUp();
+        break;
+      case "keyDownDown":
+        keyDownDown();
+        break;
+      case "keyDownLeft":
+        keyDownLeft();
+        break;
+      case "keyDownRight":
+        keyDownRight();
+        break;
+      case "keyDownSound":
+        keyDownSound();
+        break;
+      case "keyDownReset":
+        keyDownReset();
+        break;
+      case "keyDownPause":
+        keyDownPause();
+        break;
+      case "keyDownSpace":
+        keyDownSpace();
+        break;
+    }
   }
 
   function keyboardMouseUp(event) {
-    const callback = window[`keyUp${event.detail.key}`];
-    if (typeof callback == "function") callback();
+    switch (`keyUp${event.detail.key}`) {
+      case "keyUpUp":
+        keyUpUp();
+        break;
+      case "keyUpDown":
+        keyUpDown();
+        break;
+      case "keyUpLeft":
+        keyUpLeft();
+        break;
+      case "keyUpRight":
+        keyUpRight();
+        break;
+      case "keyUpSound":
+        keyUpSound();
+        break;
+      case "keyUpReset":
+        keyUpReset();
+        break;
+      case "keyUpPause":
+        keyUpPause();
+        break;
+      case "keyUpSpace":
+        keyUpSpace();
+        break;
+    }
   }
 
   onMount(() => {
     resize();
+    drop$ = _keyboardQuery.drop$.subscribe((val) => (drop = val));
+    isShowLogo$ = _tetrisQuery.isShowLogo$.subscribe(
+      (val) => (isShowLogo = val)
+    );
+  });
+
+  onDestroy(() => {
+    drop$.unsubscribe();
+    isShowLogo$.unsubscribe();
   });
 </script>
 
 <div id="host" bind:this={host}>
-  <div class="react">
+  <div class="react" class:drop>
     <Tscreen />
     <div class="screen">
       <div class="panel">
         <Tmatrix />
-        {#if isShowLogo$}
+        {#if isShowLogo}
           <Tlogo />
         {/if}
         <div class="state">
@@ -84,7 +302,11 @@
       </div>
     </div>
   </div>
-  <Tkeyboard on:mousekeydown={keyboardMouseDown} on:mousekeyup={keyboardMouseUp} {filling} />
+  <Tkeyboard
+    on:mousekeydown={keyboardMouseDown}
+    on:mousekeyup={keyboardMouseUp}
+    {filling}
+  />
 </div>
 
 <style lang="scss">

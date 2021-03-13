@@ -51,13 +51,13 @@
     _setLocked(false);
   }
 
-  function auto(delay: number) {
+  export function auto(delay: number) {
     _gameInterval = timer(0, delay).subscribe(() => {
       _update();
     });
   }
 
-  function resume() {
+  export function resume() {
     if (!_query.isPause()) {
       return;
     }
@@ -69,7 +69,7 @@
     auto(MatrixUtil.getSpeedDelay(speed));
   }
 
-  function pause() {
+  export function pause() {
     if (!_query.isPlaying()) {
       return;
     }
@@ -80,7 +80,7 @@
     _unsubscribe();
   }
 
-  function reset() {
+  export function reset() {
     const { sound } = _query.raw();
     _store.TetrisStore.update({
       ...createInitialState(_pieceFactory),
@@ -88,7 +88,7 @@
     });
   }
 
-  function moveLeft() {
+  export function moveLeft() {
     if (_locked()) {
       return;
     }
@@ -101,7 +101,7 @@
     _drawPiece();
   }
 
-  function moveRight() {
+  export function moveRight() {
     if (_locked()) {
       return;
     }
@@ -114,7 +114,7 @@
     _drawPiece();
   }
 
-  function rotate() {
+  export function rotate() {
     if (_locked()) {
       return;
     }
@@ -132,11 +132,11 @@
     _drawPiece();
   }
 
-  function moveDown() {
+  export function moveDown() {
     _update();
   }
 
-  function drop() {
+  export function drop() {
     if (_locked()) {
       return;
     }
@@ -149,14 +149,14 @@
     _drawPiece();
   }
 
-  function setSound() {
+  export function setSound() {
     const sound = _query.raw().sound;
     _store.TetrisStore.update({
       sound: !sound,
     });
   }
 
-  function decreaseLevel() {
+  export function decreaseLevel() {
     const { initSpeed } = _query.raw();
     const newSpeed = (initSpeed - 1 < 1 ? 6 : initSpeed - 1) as Speed;
     _store.TetrisStore.update({
@@ -164,7 +164,7 @@
     });
   }
 
-  function increaseLevel() {
+  export function increaseLevel() {
     const { initSpeed } = _query.raw();
     const newSpeed = (initSpeed + 1 > 6 ? 1 : initSpeed + 1) as Speed;
     _store.TetrisStore.update({
@@ -172,7 +172,7 @@
     });
   }
 
-  function increaseStartLine() {
+  export function increaseStartLine() {
     const { initLine } = _query.raw();
     const startLine = initLine + 1 > 10 ? 1 : initLine + 1;
     _store.TetrisStore.update({
@@ -180,7 +180,7 @@
     });
   }
 
-  function decreaseStartLine() {
+  export function decreaseStartLine() {
     const { initLine } = _query.raw();
     const startLine = initLine - 1 < 1 ? 10 : initLine - 1;
     _store.TetrisStore.update({

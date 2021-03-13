@@ -1,22 +1,25 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
   import { of } from "rxjs";
+  import * as _query from "../../state/keyboard/keyboard.query.svelte";
   import { ArrowButton } from "../../interfaces/arrow-button.svelte";
   import TButton from "../button/button.svelte";
 
   const dispatch = createEventDispatcher();
 
-  let filling = 20;
+  export let filling = 20;
 
-  function mouseDown(key: string): any {
-    dispatch("mousedown", {
-      key: key,
+  function mouseDown(event: CustomEvent<any>): any {
+    event.preventDefault();
+    dispatch("mousekeydown", {
+      key: event.detail.key,
     });
   }
 
-  function mouseUp(key: string): any {
-    dispatch("mouseup", {
-      key: key,
+  function mouseUp(event: CustomEvent<any>): any {
+    event.preventDefault();
+    dispatch("mousekeyup", {
+      key: event.detail.key,
     });
   }
 </script>
@@ -25,95 +28,87 @@
   <TButton
     className="blue btn-md"
     content="Rotation"
-    active$={of(true)}
+    active$={_query.up$}
     arrowButton={ArrowButton.UP}
     top={0}
     left={374}
     isAbsolute={true}
-    on:mousedown={mouseDown("Up")}
-    on:mouseup={mouseUp("Up")}
-    on:touchstart={mouseDown("Up")}
-    on:touchend={mouseUp("Up")}
+    on:mousekeydown={mouseDown}
+    on:mousekeyup={mouseUp}
+    key="Up"
   />
   <TButton
     className="blue btn-md"
     content="Down"
-    active$={of(false)}
+    active$={_query.down$}
     arrowButton={ArrowButton.DOWN}
     top={180}
     left={374}
-    on:mousedown={mouseDown("Down")}
-    on:mouseup={mouseUp("Down")}
-    on:touchstart={mouseDown("Down")}
-    on:touchend={mouseUp("Down")}
+    on:mousekeydown={mouseDown}
+    on:mousekeyup={mouseUp}
+    key="Down"
   />
   <TButton
     className="blue btn-md"
     content="Left"
-    active$={of(false)}
+    active$={_query.left$}
     arrowButton={ArrowButton.LEFT}
     top={90}
     left={284}
-    on:mousedown={mouseDown("Left")}
-    on:mouseup={mouseUp("Left")}
-    on:touchstart={mouseDown("Left")}
-    on:touchend={mouseUp("Left")}
+    on:mousekeydown={mouseDown}
+    on:mousekeyup={mouseUp}
+    key="Left"
   />
   <TButton
     className="blue btn-md"
     content="Right"
-    active$={of(false)}
+    active$={_query.right$}
     arrowButton={ArrowButton.RIGHT}
     top={90}
     left={464}
-    on:mousedown={mouseDown("Right")}
-    on:mouseup={mouseUp("Right")}
-    on:touchstart={mouseDown("Right")}
-    on:touchend={mouseUp("Right")}
+    on:mousekeydown={mouseDown}
+    on:mousekeyup={mouseUp}
+    key="Right"
   />
   <TButton
     className="blue btn-lg"
     content="Drop (SPACE)"
-    active$={of(false)}
+    active$={_query.drop$}
     top={100}
     left={52}
-    on:mousedown={mouseDown("Space")}
-    on:mouseup={mouseUp("Space")}
-    on:touchstart={mouseDown("Space")}
-    on:touchend={mouseUp("Space")}
+    on:mousekeydown={mouseDown}
+    on:mousekeyup={mouseUp}
+    key="Space"
   />
   <TButton
     className="red btn-sm"
     content="Reset (R)"
-    active$={of(false)}
+    active$={_query.reset$}
     top={0}
     left={196}
-    on:mousedown={mouseDown("Reset")}
-    on:mouseup={mouseUp("Reset")}
-    on:touchstart={mouseDown("Reset")}
-    on:touchend={mouseUp("Reset")}
+    on:mousekeydown={mouseDown}
+    on:mousekeyup={mouseUp}
+    key="Reset"
   />
   <TButton
     className="green btn-sm"
     content="Sound (S)"
-    active$={of(false)}
+    active$={_query.sound$}
     top={0}
     left={106}
-    on:mousedown={mouseDown("Sound")}
-    on:mouseup={mouseUp("Sound")}
-    on:touchstart={mouseDown("Sound")}
-    on:touchend={mouseUp("Sound")}
+    on:mousekeydown={mouseDown}
+    on:mousekeyup={mouseUp}
+    key="Sound"
   />
   <TButton
     className="green btn-sm"
     content="Pause (P)"
-    active$={of(false)}
+    active$={_query.pause$}
     top={0}
     left={16}
-    on:mousedown={mouseDown("Pause")}
-    on:mouseup={mouseUp("Pause")}
-    on:touchstart={mouseDown("Pause")}
-    on:touchend={mouseUp("Pause")}
+    on:mousekeydown={mouseDown}
+    on:mousekeyup={mouseUp}
+    key="Pause"
   />
 </div>
 

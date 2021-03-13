@@ -45,7 +45,7 @@
   export const TetrisStore = createEntityStore(
     createInitialState(new PieceFactory()),
     {
-      name: "SvelteTetrisKeyboard",
+      name: "SvelteTetris",
     }
   );
 </script>

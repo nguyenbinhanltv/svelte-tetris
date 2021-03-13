@@ -46,6 +46,16 @@
     host.style.marginTop = `${marginTop}px`;
   }
 
+  function keyboardMouseDown(event) {
+    const callback = window[`keyDown${event.detail.key}`];
+    if (typeof callback == "function") callback();
+  }
+
+  function keyboardMouseUp(event) {
+    const callback = window[`keyUp${event.detail.key}`];
+    if (typeof callback == "function") callback();
+  }
+
   onMount(() => {
     resize();
   });
@@ -74,7 +84,7 @@
       </div>
     </div>
   </div>
-  <Tkeyboard />
+  <Tkeyboard on:mousekeydown={keyboardMouseDown} on:mousekeyup={keyboardMouseUp} {filling} />
 </div>
 
 <style lang="scss">

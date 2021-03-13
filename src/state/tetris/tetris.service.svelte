@@ -283,7 +283,7 @@
 
   function _collides(): boolean {
     return _current().positionOnGrid.some((pos) => {
-      if (_matrix[pos].isSolid) {
+      if (_matrix()[pos].isSolid) {
         return true;
       }
       return false;
@@ -293,7 +293,7 @@
   function _drawPiece() {
     _setCurrentPiece(_current().clearStore());
     _loopThroughPiecePosition((position) => {
-      const isSolid = _matrix[position].isSolid;
+      const isSolid = _matrix()[position].isSolid;
       _updateMatrix(position, new FilledTile(isSolid));
     });
   }

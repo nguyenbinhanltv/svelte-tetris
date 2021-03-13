@@ -31,7 +31,7 @@
     active$={_query.up$}
     arrowButton={ArrowButton.UP}
     top={0}
-    left={374}
+    left={100}
     isAbsolute={true}
     on:mousekeydown={mouseDown}
     on:mousekeyup={mouseUp}
@@ -43,7 +43,7 @@
     active$={_query.down$}
     arrowButton={ArrowButton.DOWN}
     top={180}
-    left={374}
+    left={100}
     on:mousekeydown={mouseDown}
     on:mousekeyup={mouseUp}
     key="Down"
@@ -54,7 +54,7 @@
     active$={_query.left$}
     arrowButton={ArrowButton.LEFT}
     top={90}
-    left={284}
+    left={10}
     on:mousekeydown={mouseDown}
     on:mousekeyup={mouseUp}
     key="Left"
@@ -65,7 +65,7 @@
     active$={_query.right$}
     arrowButton={ArrowButton.RIGHT}
     top={90}
-    left={464}
+    left={190}
     on:mousekeydown={mouseDown}
     on:mousekeyup={mouseUp}
     key="Right"
@@ -75,7 +75,7 @@
     content="Drop (SPACE)"
     active$={_query.drop$}
     top={100}
-    left={52}
+    left={374}
     on:mousekeydown={mouseDown}
     on:mousekeyup={mouseUp}
     key="Space"
@@ -85,7 +85,7 @@
     content="Reset (R)"
     active$={_query.reset$}
     top={0}
-    left={196}
+    left={480}
     on:mousekeydown={mouseDown}
     on:mousekeyup={mouseUp}
     key="Reset"
@@ -95,7 +95,7 @@
     content="Sound (S)"
     active$={_query.sound$}
     top={0}
-    left={106}
+    left={390}
     on:mousekeydown={mouseDown}
     on:mousekeyup={mouseUp}
     key="Sound"
@@ -105,7 +105,7 @@
     content="Pause (P)"
     active$={_query.pause$}
     top={0}
-    left={16}
+    left={300}
     on:mousekeydown={mouseDown}
     on:mousekeyup={mouseUp}
     key="Pause"

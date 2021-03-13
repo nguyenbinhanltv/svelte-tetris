@@ -4,7 +4,7 @@
     isEnableSound,
   } from "../state/tetris/tetris.query.svelte";
 
-  const SOUND_FILE_PATH = "../../public/assets/tetris-sound.mp3";
+  const SOUND_FILE_PATH = "/assets/tetris-sound.mp3";
   let _context: AudioContext;
   let _buffer: AudioBuffer;
 

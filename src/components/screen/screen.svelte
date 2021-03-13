@@ -118,4 +118,5 @@
 
 <style lang="scss">
   @import "./screen.scss";
+  @import "../../styles/_util.scss";
 </style>

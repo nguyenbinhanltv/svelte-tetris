@@ -56,6 +56,7 @@
   });
 
   onDestroy(() => {
+    console.log("destroy");
     matrix$.unsubscribe();
   });
 </script>

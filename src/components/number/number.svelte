@@ -4,7 +4,7 @@
 
   export function nums(): string[] {
     const str = `${num}`;
-    return str.padStart(this.length, "n").split("");
+    return str.padStart(length, "n").split("");
   }
 </script>
 
@@ -15,5 +15,5 @@
 </div>
 
 <style lang="scss">
-  @import "../../styles/tetris.scss";
+  @import "../../styles/_number.scss";
 </style>

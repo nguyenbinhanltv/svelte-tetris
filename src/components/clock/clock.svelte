@@ -36,3 +36,7 @@
     <span class="bg num num-{item}" />
   {/each}
 </div>
+
+<style lang="scss">
+  @import "../../styles/_number.scss";
+</style>

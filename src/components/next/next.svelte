@@ -1,11 +1,12 @@
 <script lang="ts">
-  import type { Observable, Subscription } from "rxjs";
+  import type { Subscription } from "rxjs";
   import { map } from "rxjs/operators";
   import { onMount } from "svelte";
-  import { onDestroy, subscribe } from "svelte/internal";
+  import { onDestroy } from "svelte/internal";
   import type { TileValue } from "../../interfaces/tile/tile.svelte";
   import { Tile } from "../../interfaces/tile/tile.svelte";
   import * as _tetrisQuery from "../../state/tetris/tetris.query.svelte";
+  import Ttile from "../tile/tile.svelte";
 
   let next$: Subscription;
   let nexts: Tile[][] = [];
@@ -32,7 +33,7 @@
   {#each nexts as next}
     <div class="row">
       {#each next as tile}
-        <t-tile {tile} />
+        <Ttile {tile} />
       {/each}
     </div>
   {/each}

@@ -7,5 +7,47 @@
 </main>
 
 <style lang="scss">
-  @import "./styles/tetris.scss";
+  $light-teal: #009688;
+  :global(*) {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  :global(body) {
+    background: $light-teal;
+
+    padding: 0;
+    margin: 0;
+    font: 20px/1 "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+
+    overflow: hidden;
+    cursor: default;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    direction: ltr;
+    text-align: left;
+  }
+
+  :global(.state) {
+    width: 108px;
+    position: absolute;
+    top: 0;
+    right: 15px;
+  }
+
+  :global(.state p) {
+    line-height: 47px;
+    height: 57px;
+    padding: 10px 0 0;
+    white-space: nowrap;
+    clear: both;
+  }
+
+  :global(.state .last-row) {
+    position: absolute;
+    width: 114px;
+    top: 426px;
+    left: 0;
+  }
 </style>

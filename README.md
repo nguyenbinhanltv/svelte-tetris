@@ -123,7 +123,7 @@ akitaDevtools();
 persistState();
 ```
 
-I turn it on all the time on [tetris.trungk18.com][angular-tetris], you can open the DevTools and start seeing the data flow.
+I turn it on all the time on if you run project, you can open the DevTools and start seeing the data flow.
 
 ![Angular Tetris][akita-devtool]
 
@@ -310,7 +310,6 @@ README copyright trungk18, Edit by me.
 
 [issues]: https://github.com/nguyenbinhanltv/svelte-tetris/issues/new/choose
 [pull]: https://github.com/nguyenbinhanltv/svelte-tetris/pulls
-[angular-tetris]: https://tetris.trungk18.com
 [srs]: https://tetris.fandom.com/wiki/SRS
 [vue]: https://github.com/Binaryify/vue-tetris
 [angular]: https://github.com/trungk18/angular-tetris

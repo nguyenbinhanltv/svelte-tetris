@@ -186,9 +186,7 @@
     });
     _tetrisService.pause();
     setTimeout(() => {
-      if (
-        confirm("You are having a good game. Are you sure you want to reset?")
-      ) {
+      if (confirm("Are you sure you want to reset?")) {
         _tetrisService.reset();
       } else {
         _tetrisService.resume();
@@ -265,6 +263,69 @@
     }
   }
 
+  function handleKeyboardDown(event) {
+    switch (event.keyCode) {
+      case 38:
+        keyDownUp();
+        break;
+      case 40:
+        keyDownDown();
+        break;
+      case 37:
+        keyDownLeft();
+        break;
+      case 39:
+        keyDownRight();
+        break;
+      case 83:
+        keyDownSound();
+        break;
+      case 82:
+        keyDownReset();
+        break;
+      case 80:
+        keyDownPause();
+        break;
+      case 32:
+        keyDownSpace();
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  function handleKeyboardUp(event) {
+    switch (event.keyCode) {
+      case 38:
+        keyUpUp();
+        break;
+      case 40:
+        keyUpDown();
+        break;
+      case 37:
+        keyUpLeft();
+        break;
+      case 39:
+        keyUpRight();
+        break;
+      case 83:
+        keyUpSound();
+        break;
+      case 82:
+        keyUpReset();
+        break;
+      case 80:
+        keyUpPause();
+        break;
+      case 32:
+        keyUpSpace();
+        break;
+      default:
+        break;
+    }
+  }
+
   onMount(() => {
     resize();
     drop$ = _keyboardQuery.drop$.subscribe((val) => (drop = val));
@@ -278,6 +339,8 @@
     isShowLogo$.unsubscribe();
   });
 </script>
+
+<svelte:window on:keydown={handleKeyboardDown} on:keyup={handleKeyboardUp} />
 
 <div id="host" bind:this={host}>
   <div class="react" class:drop>

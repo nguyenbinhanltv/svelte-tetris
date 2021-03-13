@@ -32,19 +32,20 @@ A childhood memory Tetris game built with Svelte and Akita.
 
 ## Working Game
 
-Check out the **working game** -> https://tetris.trungk18.com
+Check out the **working game** ->
 
 The game has sounds, wear your 🎧 or turn on your 🔊 for a better experience.
 
 ![A childhood memory Tetris game built with Svelte 10 and Akita][demo]
 
-![A childhood memory Tetris game built with Svelte 10 and Akita][iphonex]
-
 ## Support
 
 If you like my work, feel free to:
+
 - ⭐ this repository. And we will be happy together :)
-- <a title="Thanks for your support!" href="https://www.buymeacoffee.com/binhannguyen" target="_blank"><img src="https://res.cloudinary.com/dvujyxh7e/image/upload/c_thumb,w_140,g_face/v1596378474/default-orange_uthxgz.jpg" alt="Buy Me A Coffee"></a>
+- <a title="Thanks for your support!" href="https://www.buymeacoffee.com/binhannguyen" target="_blank">
+  <img src="https://res.cloudinary.com/dvujyxh7e/image/upload/c_thumb,w_140,g_face/v1596378474/default-orange_uthxgz.jpg" alt="Buy Me A Coffee">
+  </a>
 
 Thanks for supporting me!
 
@@ -57,6 +58,7 @@ My Tetris was exactly in the same yellow color and it was so big, running on 2 A
 ![Retro Tetris][tetris]
 
 After i saw the [Tetris game built with Angular][angular] by trungk18, [Tetris game built with Vue][vue] by his wife. I came up with an idea why I didn't build the same <u>Tetris with Svelte</u>? And here you go.
+
 ## Who is this for?
 
 I built this game dedicated to:
@@ -116,7 +118,7 @@ And let me emphasize it again, I didn't write the brain of the game from scratch
 Although you don't dispatch any action, Akita will still do it undo the hood as the Update action. And you still can see the data with [Redux DevTools][redux-devtool]. Remember to put that option into your `main.ts`
 
 ```ts
-import { akitaDevtools, persistState } from '@datorama/akita';
+import { akitaDevtools, persistState } from "@datorama/akita";
 akitaDevtools();
 persistState();
 ```
@@ -285,12 +287,12 @@ See more at [src/containers/svelte-tetris/svelte-tetris.svelte][hotkeys-implemen
 
 ## Credits and references
 
-| Resource                                      | Description                                                                                                                       |
-| --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| [@Binaryify/vue-tetris][vue]                  | Vue Tetris, I reused part of HTML, CSS and static assets from that project                                                        |
-| [@chrum/ngx-tetris][ngx-tetris]               | A comprehensive core Tetris written with Angular, I reused part of that for the brain of the game.                                |
-| [@trungk18/angular-tetris][angular] | Power of Akita state management with Angular to making crazy tetris game |
-| [Super Rotation System][srs]                  | A standard for how the piece behaves. I didn't follow everything but it is good to know as wells                                  |
+| Resource                            | Description                                                                                        |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------- |
+| [@Binaryify/vue-tetris][vue]        | Vue Tetris, I reused part of HTML, CSS and static assets from that project                         |
+| [@chrum/ngx-tetris][ngx-tetris]     | A comprehensive core Tetris written with Angular, I reused part of that for the brain of the game. |
+| [@trungk18/angular-tetris][angular] | Power of Akita state management with Angular to making crazy tetris game                           |
+| [Super Rotation System][srs]        | A standard for how the piece behaves. I didn't follow everything but it is good to know as wells   |
 
 ## Contributing
 
@@ -301,6 +303,7 @@ If you'd like to contribute, please fork the repository and make changes as you'
 ## License
 
 Feel free to use my code on your project. It would be great if you put a reference to this repository.
+
 README copyright trungk18, Edit by me.
 
 [MIT](https://opensource.org/licenses/MIT)
@@ -313,7 +316,6 @@ README copyright trungk18, Edit by me.
 [angular]: https://github.com/trungk18/angular-tetris
 [tetris]: public/assets/readme/retro-tetris.jpg
 [demo]: public/assets/readme/angular-tetris-demo.gif
-[iphonex]: public/assets/readme/angular-tetris-iphonex.gif
 [ngx-tetris]: https://github.com/chrum/ngx-tetris
 [techstack]: public/assets/readme/tech-stack.png
 [akita-devtool]: public/assets/readme/akita-devtool.gif

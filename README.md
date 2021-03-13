@@ -22,12 +22,8 @@ A childhood memory Tetris game built with Svelte and Akita.
     - [Animation](#animation)
     - [Web Audio API](#web-audio-api)
     - [Keyboard handling](#keyboard-handling)
-  - [Features and Roadmap](#features-and-roadmap)
-    - [Phase 1 - Angular Tetris basic functionality](#phase-1---angular-tetris-basic-functionality)
-    - [Phase 2 - Firebase high score, service worker, more sounds effect, more animation](#phase-2---firebase-high-score-service-worker-more-sounds-effect-more-animation)
-  - [Time spending](#time-spending)
   - [Setting up development environment 🛠](#setting-up-development-environment-)
-  - [Author: Trung Vo ✍️](#author-trung-vo-️)
+  - [Author: Nguyen Binh An ✍️](#author-nguyen-binh-an-)
   - [Credits and references](#credits-and-references)
   - [Contributing](#contributing)
   - [License](#license)
@@ -40,9 +36,9 @@ Check out the **working game** -> https://tetris.trungk18.com
 
 The game has sounds, wear your 🎧 or turn on your 🔊 for a better experience.
 
-![A childhood memory Tetris game built with Angular 10 and Akita][demo]
+![A childhood memory Tetris game built with Svelte 10 and Akita][demo]
 
-![A childhood memory Tetris game built with Angular 10 and Akita][iphonex]
+![A childhood memory Tetris game built with Svelte 10 and Akita][iphonex]
 
 ## Support
 
@@ -97,11 +93,11 @@ I built it barely with Svelte and Akita, no additional UI framework/library was 
 
 ## Development Challenge
 
-I got the inspiration from the same but different [Tetris game built with Vue][vue]. To not reinvented the wheel, I started to look at Vue code and thought it would be very identical to Angular. But later on, I realized a few catches:
+I got the inspiration from the same but different [Tetris game built with Vue][vue]. To not reinvented the wheel, I started to look at Vue code and thought it would be very identical to Svelte. But later on, I realized a few catches:
 
 - The Vue source code was written a few years ago with pure JS. I could find several problems that the compiler didn't tell you. Such as giving `parseInt` a number. It is still working though, but I don't like it.
 - There was extensive use of `setTimeout` and `setInterval` for making animations. I rewrote all of the animation logic using RxJS. You will see the detail below.
-- The brain of the game also used `setTimeout` for the game loop. It was not a problem, but I was having a <u>hard time</u> understanding the code on some essential elements: how to render the piece to the UI, how the calculation makes sense with XY axis. In the end, I changed all of the logic to a proper functional way using TypeScript, based on [@angular-tetris][angular].
+- The brain of the game also used `setTimeout` for the game loop. It was not a problem, but I was having a <u>hard time</u> understanding the code on some essential elements: how to render the piece to the UI, how the calculation makes sense with XY axis. In the end, I changed all of the logic to a proper functional way using TypeScript, based on [@trungk18/angular-tetris][angular].
 
 ### Tetris Core
 
@@ -113,7 +109,7 @@ I always think that your code must be written as you talk to people, without exp
 
 > “ Code is like humor. When you have to explain it, it’s bad.” – Cory House
 
-And let me emphasize it again, I didn't write the brain of the game from scratch. I adapted the well-written source by [@angular-tetris][angular] for Tetris core. I did refactor some parts to support Akita and wrote some new functionality as well.
+And let me emphasize it again, I didn't write the brain of the game from scratch. I adapted the well-written source by [@trungk18/angular-tetris][angular] for Tetris core. I did refactor some parts to support Akita and wrote some new functionality as well.
 
 ### Akita state management + dev tool support
 
@@ -133,7 +129,7 @@ I turn it on all the time on [tetris.trungk18.com][angular-tetris], you can open
 
 ### Customizing Piece
 
-I still keep a base [Piece class][piece-class] in [@angular-tetris][angular] for a piece. And for each type of piece, it will extend from the same base class to inherit the same capability
+I still keep a base [Piece class][piece-class] in [@trungk18/angular-tetris][angular] for a piece. And for each type of piece, it will extend from the same base class to inherit the same capability
 
 [piece-class]: src/interfaces/piece/piece.svelte
 
@@ -273,7 +269,7 @@ I decided to use `svelte:window` instead. A simple implementation could look lik
     <svelte:window on:keydown={handleKeyboardDown} on:keyup={handleKeyboardUp} />
 ```
 
-See more at [containers/svelte-tetris/svelte-tetris.svelte][hotkeys-implementation]
+See more at [src/containers/svelte-tetris/svelte-tetris.svelte][hotkeys-implementation]
 
 ## Setting up development environment 🛠
 
@@ -285,7 +281,7 @@ See more at [containers/svelte-tetris/svelte-tetris.svelte][hotkeys-implementati
 
 ## Author: Nguyen Binh An ✍️
 
-- A young and passionate front-end engineer. Working with JavaScript and TypeScript. Like photography, running, cooking, and reading books.
+- A young and passionate front-end engineer. Working with JavaScript and TypeScript. Like photography, cooking, and reading books.
 
 ## Credits and references
 
@@ -305,6 +301,7 @@ If you'd like to contribute, please fork the repository and make changes as you'
 ## License
 
 Feel free to use my code on your project. It would be great if you put a reference to this repository.
+README copyright trungk18, Edit by me.
 
 [MIT](https://opensource.org/licenses/MIT)
 
@@ -325,3 +322,4 @@ Feel free to use my code on your project. It would be great if you put a referen
 [webaudio]: https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API
 [redux-devtool]: https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en
 [web_audio_api_cross_browser]: https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_delivery/Web_Audio_API_cross_browser
+[hotkeys-implementation]: src/containers/svelte-tetris/svelte-tetris.svelte

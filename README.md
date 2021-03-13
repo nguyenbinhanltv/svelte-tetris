@@ -6,7 +6,7 @@ A childhood memory Tetris game built with Svelte and Akita.
   <summary>Table Of Content</summary>
   <p>
 
-- [Angular Tetris](#angular-tetris)
+- [Svelte Tetris](#svelte-tetris)
   - [Working Game](#working-game)
   - [Support](#support)
   - [Why?](#why)
@@ -23,7 +23,7 @@ A childhood memory Tetris game built with Svelte and Akita.
     - [Web Audio API](#web-audio-api)
     - [Keyboard handling](#keyboard-handling)
   - [Setting up development environment 🛠](#setting-up-development-environment-)
-  - [Author: Nguyen Binh An ✍️](#author-nguyen-binh-an-)
+  - [Author: Nguyen Binh An ✍️](#author-nguyen-binh-an-%EF%B8%8F)
   - [Credits and references](#credits-and-references)
   - [Contributing](#contributing)
   - [License](#license)

@@ -316,7 +316,7 @@ README copyright trungk18, Edit by me.
 [tetris]: public/assets/readme/retro-tetris.jpg
 [demo]: public/assets/readme/svelte-tetris-demo.gif
 [ngx-tetris]: https://github.com/chrum/ngx-tetris
-[techstack]: public/assets/readme/tech-stack.png
+[techstack]: public/assets/readme/tech-stack.jpg
 [akita-devtool]: public/assets/readme/akita-devtool.gif
 [sounds]: public/assets/tetris-sound.mp3
 [sound-manager]: src/services/sound-manager.service.svelte

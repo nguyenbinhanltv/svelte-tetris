@@ -315,7 +315,7 @@ README copyright trungk18, Edit by me.
 [vue]: https://github.com/Binaryify/vue-tetris
 [angular]: https://github.com/trungk18/angular-tetris
 [tetris]: public/assets/readme/retro-tetris.jpg
-[demo]: public/assets/readme/angular-tetris-demo.gif
+[demo]: public/assets/readme/svelte-tetris-demo.gif
 [ngx-tetris]: https://github.com/chrum/ngx-tetris
 [techstack]: public/assets/readme/tech-stack.png
 [akita-devtool]: public/assets/readme/akita-devtool.gif

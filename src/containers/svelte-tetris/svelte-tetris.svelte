@@ -331,6 +331,10 @@
     resize();
   }
 
+  function unloadHandler(event: Event) {
+    _tetrisService.reset();
+  }
+
   onMount(() => {
     drop$ = _keyboardQuery.drop$.subscribe((val) => (drop = val));
     isShowLogo$ = _tetrisQuery.isShowLogo$.subscribe(
@@ -344,7 +348,12 @@
   });
 </script>
 
-<svelte:window on:keydown={handleKeyboardDown} on:keyup={handleKeyboardUp} />
+<svelte:window
+  on:keydown={handleKeyboardDown}
+  on:keyup={handleKeyboardUp}
+  on:resize={handlerResize}
+  on:error={unloadHandler}
+/>
 
 <div id="host" bind:this={host} use:watchResize={handlerResize}>
   <div class="react" class:drop>

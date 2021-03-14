@@ -4,7 +4,7 @@
   }
   import { of, Subscription, timer } from "rxjs";
   import { map, switchMap } from "rxjs/operators";
-  import { onDestroy, onMount } from "svelte";
+  import { onMount } from "svelte";
   import * as _tetrisQuery from "../../state/tetris/tetris.query.svelte";
   import Tnumber from "../number/number.svelte";
 
@@ -30,15 +30,13 @@
           );
         })
       )
-      .subscribe((val) => (labelAndPoints = val));
+      .subscribe((val) => {
+        labelAndPoints = val;
+      });
   }
 
   onMount(() => {
     renderLabelAndPoints();
-  });
-
-  onDestroy(() => {
-    labelAndPoints$.unsubscribe();
   });
 </script>
 

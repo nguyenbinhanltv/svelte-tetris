@@ -18,6 +18,7 @@
   import * as _tetrisService from "../../state/tetris/tetris.service.svelte";
   import * as _tetrisQuery from "../../state/tetris/tetris.query.svelte";
   import type { Subscription } from "rxjs";
+  import { watchResize } from "svelte-watch-resize";
 
   let filling: number;
   let host: HTMLElement;
@@ -326,8 +327,11 @@
     }
   }
 
-  onMount(() => {
+  function handlerResize(node) {
     resize();
+  }
+
+  onMount(() => {
     drop$ = _keyboardQuery.drop$.subscribe((val) => (drop = val));
     isShowLogo$ = _tetrisQuery.isShowLogo$.subscribe(
       (val) => (isShowLogo = val)
@@ -342,7 +346,7 @@
 
 <svelte:window on:keydown={handleKeyboardDown} on:keyup={handleKeyboardUp} />
 
-<div id="host" bind:this={host}>
+<div id="host" bind:this={host} use:watchResize={handlerResize}>
   <div class="react" class:drop>
     <Tscreen />
     <div class="screen">
